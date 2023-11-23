@@ -9,8 +9,8 @@ gcc_toolchain("emscripten") {
   ld = cxx
   nm = "emnm"
 
-  extra_cflags = "-Wno-unknown-warning-option"
-  extra_cxxflags = "-Wno-unknown-warning-option"
+  extra_cflags = "-Wno-unknown-warning-option -pthread"
+  extra_cxxflags = "-Wno-unknown-warning-option -pthread"
 
   toolchain_args = {
     current_cpu = "wasm"
