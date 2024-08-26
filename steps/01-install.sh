@@ -20,6 +20,9 @@ echo "$DepotTools_DIR" >> "$PATH_FILE"
 
 case "$TARGET_OS" in
   android)
+    sudo apt-get update
+    sudo apt-get install -y unzip
+
     # pdfium installs its version of the NDK, but we need one for compiling the example
     ANDROID_NDK_VERSION="r25c"
     ANDROID_NDK_FOLDER="android-ndk-$ANDROID_NDK_VERSION"
@@ -107,5 +110,11 @@ case "$TARGET_OS" in
 
   win)
     echo "$WindowsSDK_DIR/$CURRENT_CPU" >> "$PATH_FILE"
+    ;;
+
+  ios)
+    # Xcode 15.4 produces the following error when targeting ARM64 with V8:
+    # undefined symbol: be_memory_inline_jit_restrict_rwx_to_rx_with_witness_impl
+    sudo xcode-select -s "/Applications/Xcode_15.0.1.app"
     ;;
 esac

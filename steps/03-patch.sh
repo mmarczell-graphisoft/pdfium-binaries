@@ -19,6 +19,7 @@ case "$OS" in
 
   ios)
     git apply -v "$PATCHES/ios/pdfium.patch"
+    [ "${PDFium_ENABLE_V8:-}" == "true" ] && git -C v8 apply -v "$PATCHES/ios/v8.patch"
     ;;
 
   wasm)
@@ -31,7 +32,6 @@ case "$OS" in
     ;;
 
   win)
-    git apply -v "$PATCHES/win/pdfium.patch"
     git -C build apply -v "$PATCHES/win/build.patch"
 
     VERSION=${PDFium_VERSION:-0.0.0.0}
@@ -45,6 +45,7 @@ esac
 case "$TARGET_LIBC" in
   musl)
     git -C build apply -v "$PATCHES/musl/build.patch"
+    git -C third_party/zlib apply -v "$PATCHES/musl/zlib.patch"
     mkdir -p "build/toolchain/linux/musl"
     cp "$PATCHES/musl/toolchain.gn" "build/toolchain/linux/musl/BUILD.gn"
     ;;
