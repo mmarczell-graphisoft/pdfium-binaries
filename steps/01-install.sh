@@ -2,7 +2,7 @@
 
 PATH_FILE=${GITHUB_PATH:-$PWD/.path}
 TARGET_OS=${PDFium_TARGET_OS:?}
-TARGET_LIBC=${PDFium_TARGET_LIBC:-default}
+TARGET_ENVIRONMENT=${PDFium_TARGET_ENVIRONMENT:-}
 TARGET_CPU=${PDFium_TARGET_CPU:?}
 CURRENT_CPU=${PDFium_CURRENT_CPU:-x64}
 MUSL_URL=${MUSL_URL:-https://musl.cc}
@@ -40,27 +40,27 @@ case "$TARGET_OS" in
     sudo apt-get update
     sudo apt-get install -y cmake pkg-config
 
-    if [ "$TARGET_LIBC" == "musl" ]; then
+    if [ "$TARGET_ENVIRONMENT" == "musl" ]; then
 
       case "$TARGET_CPU" in
         x86)
           MUSL_VERSION="i686-linux-musl-cross"
-          PACKAGES="g++-10 g++-10-multilib"
+          PACKAGES="g++ g++-multilib"
           ;;
 
         x64)
           MUSL_VERSION="x86_64-linux-musl-cross"
-          PACKAGES="g++-10"
+          PACKAGES="g++"
           ;;
 
         arm)
           MUSL_VERSION="arm-linux-musleabihf-cross"
-          PACKAGES="g++-10"
+          PACKAGES="g++"
           ;;
 
         arm64)
           MUSL_VERSION="aarch64-linux-musl-cross"
-          PACKAGES="g++-10"
+          PACKAGES="g++"
           ;;
       esac
 
@@ -68,8 +68,6 @@ case "$TARGET_OS" in
       echo "$PWD/$MUSL_VERSION/bin" >> "$PATH_FILE"
 
       sudo apt-get install -y $PACKAGES
-      sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10
-      sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10
 
     else
 
@@ -101,8 +99,8 @@ case "$TARGET_OS" in
       git clone https://github.com/emscripten-core/emsdk.git
     fi
     pushd emsdk
-    ./emsdk install ${EMSDK_VERSION:-3.1.34}
-    ./emsdk activate ${EMSDK_VERSION:-3.1.34}
+    ./emsdk install ${EMSDK_VERSION:-3.1.72}
+    ./emsdk activate ${EMSDK_VERSION:-3.1.72}
     echo "$PWD/upstream/emscripten" >> "$PATH_FILE"
     echo "$PWD/upstream/bin" >> "$PATH_FILE"
     popd
