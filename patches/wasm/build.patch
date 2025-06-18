@@ -44,8 +44,8 @@ index 4b4d65c..08612bf 100644
    nm = cc
    ld = cxx
  
-+  extra_cflags = "-Wno-unknown-warning-option"
-+  extra_cxxflags = "-Wno-unknown-warning-option"
++  extra_cflags = "-Wno-unknown-warning-option -pthread"
++  extra_cxxflags = "-Wno-unknown-warning-option -pthread"
 +
    toolchain_args = {
      current_cpu = "wasm"
